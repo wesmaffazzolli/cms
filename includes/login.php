@@ -6,6 +6,12 @@
 <?php 
 
 if(isset($_POST['login'])) {
+
+    /*$password = "secret";
+    $has_format = "$2y$10&";
+    $salt = "iusesomecrazystrings22";
+
+    echo strlen($salt);*/
     
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -19,7 +25,6 @@ if(isset($_POST['login'])) {
     if(!$select_user_query) {
         die("QUERY FAILED" . mysqli_error($connection));
     }
-}
 
 while($row = mysqli_fetch_array($select_user_query)) {
     $db_user_id = $row['user_id'];
@@ -29,6 +34,8 @@ while($row = mysqli_fetch_array($select_user_query)) {
     $db_user_lastname = $row['user_lastname'];
     $db_user_role = $row['user_role'];
 }
+
+$password = crypt($password, $db_user_password);
 
 if($username === $db_username && $password === $db_user_password) {
     
@@ -44,5 +51,6 @@ if($username === $db_username && $password === $db_user_password) {
     header("Location: ../index.php");
 }
 
+}
 
 ?>
